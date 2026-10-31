@@ -1,0 +1,47 @@
+[
+  {
+    "id": "guidelines-revised",
+    "title": "PM-KISAN Revised Operational Guidelines",
+    "url": "https://pmkisan.gov.in/Documents/RevisedPM-KISANOperationalGuidelines(English).pdf",
+    "type": "official",
+    "date": null,
+    "retrievedOn": "2026-10-31",
+    "file": "guidelines-revised.txt"
+  },
+  {
+    "id": "faq-revised",
+    "title": "PM-KISAN Revised FAQ",
+    "url": "https://PMkisan.gov.in/Documents/RevisedFAQ.pdf",
+    "type": "official",
+    "date": null,
+    "retrievedOn": "2026-10-31",
+    "file": "faq-revised.txt"
+  },
+  {
+    "id": "myscheme",
+    "title": "myScheme - PM-KISAN",
+    "url": "https://www.myscheme.gov.in/schemes/pm-kisan",
+    "type": "official",
+    "date": null,
+    "retrievedOn": "2026-10-31",
+    "file": "myscheme.txt"
+  },
+  {
+    "id": "angelone-documents",
+    "title": "Angel One - Documents required for PM-KISAN",
+    "url": "TODO_PASTE_WORKING_URL",
+    "type": "unofficial",
+    "date": "TODO",
+    "retrievedOn": "2026-10-31",
+    "file": "angelone-documents.txt"
+  },
+  {
+    "id": "angelone-eligibility",
+    "title": "Angel One - PM-KISAN Eligibility",
+    "url": "TODO_PASTE_WORKING_URL",
+    "type": "unofficial",
+    "date": "TODO",
+    "retrievedOn": "2026-10-31",
+    "file": "angelone-eligibility.txt"
+  }
+]

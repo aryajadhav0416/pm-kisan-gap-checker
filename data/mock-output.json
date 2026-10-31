@@ -1,0 +1,88 @@
+{
+  "topics": [
+    {
+      "topic": "Eligibility",
+      "status": "covered",
+      "summary": "Seems to be addressed in official guidelines — land ownership is the primary criterion.",
+      "evidence": [
+        {
+          "sourceId": "guidelines-revised",
+          "snippet": "MOCK: All landholder farmer families are eligible irrespective of the size of landholding.",
+          "verified": false
+        }
+      ],
+      "label": "sourced"
+    },
+    {
+      "topic": "Helpline and grievance",
+      "status": "missing",
+      "summary": "Not found in sources reviewed. The helpline number or grievance mechanism was not mentioned in any of the provided source texts.",
+      "evidence": [],
+      "label": "uncertain"
+    },
+    {
+      "topic": "Benefit amount and instalments",
+      "status": "conflicting",
+      "summary": "Possible conflict between official and unofficial sources on instalment schedule.",
+      "evidence": [
+        {
+          "sourceId": "guidelines-revised",
+          "snippet": "MOCK: Financial benefit of Rs. 6000/- per year is provided in three equal instalments of Rs. 2000/- each.",
+          "verified": false
+        },
+        {
+          "sourceId": "angelone-eligibility",
+          "snippet": "MOCK: Eligible farmers receive Rs. 6,000 annually in two instalments of Rs. 3,000 each.",
+          "verified": false
+        }
+      ],
+      "conflictNote": "Possible conflict: the official guidelines state three instalments of ₹2,000 each; the unofficial source states two instalments of ₹3,000 each. Confirm on the official portal.",
+      "label": "sourced"
+    }
+  ],
+  "profileMatches": [
+    {
+      "criterion": "Owns cultivable agricultural land",
+      "result": "seems_to_match",
+      "reason": "Profile states land ownership as 'yes', which seems to match the land-ownership criterion found in official sources.",
+      "evidence": [
+        {
+          "sourceId": "guidelines-revised",
+          "snippet": "MOCK: The farmer family must own cultivable land as per the land records of the state.",
+          "verified": false
+        }
+      ]
+    },
+    {
+      "criterion": "e-KYC completion",
+      "result": "may_not_match",
+      "reason": "Profile states e-KYC as 'no'. Official sources indicate e-KYC is mandatory for instalment transfer.",
+      "evidence": [
+        {
+          "sourceId": "faq-revised",
+          "snippet": "MOCK: e-KYC is mandatory for all beneficiaries. Farmers who have not completed e-KYC may not receive the instalment.",
+          "verified": false
+        }
+      ]
+    }
+  ],
+  "checklist": [
+    {
+      "priority": "high",
+      "action": "Complete e-KYC immediately via the PM-KISAN portal or a CSC centre.",
+      "reason": "Cannot tell whether instalments will be released without e-KYC completion.",
+      "relatedTopic": "e-KYC"
+    },
+    {
+      "priority": "medium",
+      "action": "Verify the instalment amount and schedule directly with official sources.",
+      "reason": "Possible conflict between sources on instalment structure — cannot confirm which is current.",
+      "relatedTopic": "Benefit amount and instalments"
+    },
+    {
+      "priority": "low",
+      "action": "Confirm all findings on the official PM-KISAN portal at https://pmkisan.gov.in.",
+      "reason": "All findings in this report are signals and potential gaps, not verified facts. Always confirm on the official portal."
+    }
+  ]
+}
