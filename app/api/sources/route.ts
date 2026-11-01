@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 import { loadSources, type SourceMeta } from "@/lib/sources";
 
+// Note: no `dynamic` or `revalidate` export here — nextConfig.cacheComponents
+// is incompatible with route segment cache config. API routes that perform
+// filesystem I/O are not statically prerendered by Next.js automatically.
+
 export async function GET() {
   try {
     const sources = loadSources();

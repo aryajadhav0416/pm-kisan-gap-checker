@@ -7,6 +7,8 @@ import { callModel } from "@/lib/llm";
 import { verifyReport } from "@/lib/verifySnippets";
 import { computeSourceWarnings } from "@/lib/staleness";
 
+export const maxDuration = 60;
+
 export async function POST(req: NextRequest) {
   try {
     let body: unknown;

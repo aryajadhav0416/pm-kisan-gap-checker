@@ -12,6 +12,10 @@ const nextConfig: NextConfig = {
       },
     },
   },
+  outputFileTracingIncludes: {
+    "/api/analyze": ["./data/**/*"],
+    "/api/sources": ["./data/**/*"],
+  },
 };
 
 export default nextConfig;

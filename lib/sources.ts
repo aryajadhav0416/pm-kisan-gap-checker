@@ -20,8 +20,9 @@ export interface Source extends SourceMeta {
 
 /**
  * Reads data/sources.json and each linked .txt file.
- * Throws a descriptive error if a text file still contains the placeholder
- * or has fewer than 500 characters.
+ * Skips any source whose file is missing, still contains the placeholder,
+ * or is shorter than 500 characters — logging a warning instead of throwing.
+ * Throws only if fewer than 2 valid sources remain after filtering.
  *
  * Rule 6: never invent source content — the caller must supply real text.
  */
@@ -32,32 +33,44 @@ export function loadSources(): Source[] {
   const raw = fs.readFileSync(sourcesJsonPath, "utf-8");
   const metas: SourceMeta[] = JSON.parse(raw);
 
-  return metas.map((meta) => {
+  const sources: Source[] = [];
+
+  for (const meta of metas) {
     const txtPath = path.join(dataDir, "sources", meta.file);
 
     let text: string;
     try {
       text = fs.readFileSync(txtPath, "utf-8").trim();
     } catch {
-      throw new Error(
-        `[loadSources] Cannot read file for source "${meta.id}": ${txtPath}`
+      console.warn(
+        `[loadSources] Skipping source "${meta.id}": cannot read file ${txtPath}`
       );
+      continue;
     }
 
     if (text === PLACEHOLDER || text.startsWith(PLACEHOLDER)) {
-      throw new Error(
-        `[loadSources] Source "${meta.id}" still contains the placeholder text. ` +
-          `Paste the real source content into data/sources/${meta.file} before running.`
+      console.warn(
+        `[loadSources] Skipping source "${meta.id}": file still contains the placeholder text.`
       );
+      continue;
     }
 
     if (text.length < MIN_CHARS) {
-      throw new Error(
-        `[loadSources] Source "${meta.id}" has only ${text.length} characters (minimum ${MIN_CHARS}). ` +
-          `Paste the full source content into data/sources/${meta.file}.`
+      console.warn(
+        `[loadSources] Skipping source "${meta.id}": only ${text.length} characters (minimum ${MIN_CHARS}).`
       );
+      continue;
     }
 
-    return { ...meta, text };
-  });
+    sources.push({ ...meta, text });
+  }
+
+  if (sources.length < 2) {
+    throw new Error(
+      `[loadSources] Fewer than 2 valid sources available (got ${sources.length}). ` +
+        `Ensure at least 2 source text files in data/sources/ contain real content (≥${MIN_CHARS} chars).`
+    );
+  }
+
+  return sources;
 }

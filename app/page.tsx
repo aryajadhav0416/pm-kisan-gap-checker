@@ -99,7 +99,7 @@ export default function Home() {
     runAnalysis();
   };
 
-  const sourceCount = sources.length > 0 ? sources.length : 4;
+  const sourceCount = sources.length;
 
   return (
     <main className="min-h-screen bg-zinc-50 px-4 py-10 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-50">
@@ -399,7 +399,7 @@ export default function Home() {
                       d="M4 12a8 8 0 018-8v8H4z"
                     />
                   </svg>
-                  Reading {sourceCount} sources...
+                  Reading {sourceCount > 0 ? `${sourceCount} sources` : "sources"}...
                 </span>
               ) : (
                 "Analyze"
