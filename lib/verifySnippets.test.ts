@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { verifyEvidence, verifyReport } from "./verifySnippets";
+import { verifyEvidence, verifyReport, normalise } from "./verifySnippets";
 import type { Report } from "./schema";
 
 // ---------------------------------------------------------------------------
@@ -31,19 +31,37 @@ describe("verifyEvidence — exact match", () => {
 });
 
 // ---------------------------------------------------------------------------
-// 2. Different case and extra spaces → verified: true (normalisation)
+// 2. Normalisation — case, whitespace, HTML entities, Unicode spaces
 // ---------------------------------------------------------------------------
-describe("verifyEvidence — case and whitespace normalisation", () => {
-  it("returns verified: true when snippet differs only in case and whitespace", () => {
+describe("verifyEvidence — normalisation edge cases", () => {
+  it("returns verified: true when snippet differs in case and whitespace", () => {
     const result = verifyEvidence(
       {
         sourceId: "guidelines-revised",
-        // uppercase + extra internal spaces
         snippet: "ELIGIBLE  FARMER  FAMILIES   OWNING  CULTIVABLE  LAND",
       },
       SOURCES_BY_ID
     );
     expect(result.verified).toBe(true);
+  });
+
+  it("handles HTML entities such as &amp; and non-breaking spaces &nbsp;", () => {
+    const sourcesWithEntities = {
+      "faq-src": "Farmers &amp; families can visit the portal.",
+    };
+    const result = verifyEvidence(
+      {
+        sourceId: "faq-src",
+        snippet: "Farmers & families",
+      },
+      sourcesWithEntities
+    );
+    expect(result.verified).toBe(true);
+  });
+
+  it("normalise decodes HTML entities and Unicode quotes", () => {
+    expect(normalise("it&apos;s a &quot;test&quot; &amp; more")).toBe("it's a \"test\" & more");
+    expect(normalise("“smart quotes” and ‘single’")).toBe("\"smart quotes\" and 'single'");
   });
 });
 
@@ -64,9 +82,9 @@ describe("verifyEvidence — invented snippet", () => {
 });
 
 // ---------------------------------------------------------------------------
-// 4. Correct snippet, wrong sourceId → verified: false
+// 4. Correct snippet, wrong sourceId or empty source text → verified: false
 // ---------------------------------------------------------------------------
-describe("verifyEvidence — wrong sourceId", () => {
+describe("verifyEvidence — source existence guards", () => {
   it("returns verified: false when the sourceId does not exist", () => {
     const result = verifyEvidence(
       {
@@ -77,12 +95,34 @@ describe("verifyEvidence — wrong sourceId", () => {
     );
     expect(result.verified).toBe(false);
   });
+
+  it("returns verified: false when source text is missing or empty", () => {
+    const result = verifyEvidence(
+      {
+        sourceId: "empty-src",
+        snippet: "Eligible farmer families owning cultivable land",
+      },
+      { "empty-src": "" }
+    );
+    expect(result.verified).toBe(false);
+  });
+
+  it("returns verified: false when snippet itself is empty", () => {
+    const result = verifyEvidence(
+      {
+        sourceId: "guidelines-revised",
+        snippet: "   ",
+      },
+      SOURCES_BY_ID
+    );
+    expect(result.verified).toBe(false);
+  });
 });
 
 // ---------------------------------------------------------------------------
-// 5. verifyReport stats add up correctly
+// 5. verifyReport stats add up correctly and handle zero evidence
 // ---------------------------------------------------------------------------
-describe("verifyReport — stats", () => {
+describe("verifyReport — stats and zero evidence handling", () => {
   it("counts total, verified and unverified correctly", () => {
     const goodEvidence = {
       sourceId: "guidelines-revised",
@@ -123,5 +163,29 @@ describe("verifyReport — stats", () => {
     expect(stats.verified).toBe(2);
     expect(stats.unverified).toBe(1);
     expect(stats.total).toBe(stats.verified + stats.unverified);
+    expect(stats.unverifiedDetails).toHaveLength(1);
+  });
+
+  it("handles report with zero evidence gracefully without division error", () => {
+    const emptyReport: Report = {
+      topics: [
+        {
+          topic: "Helpline",
+          status: "missing",
+          summary: "No evidence available.",
+          evidence: [],
+          label: "uncertain",
+        },
+      ],
+      profileMatches: [],
+      checklist: [],
+      sourceWarnings: [],
+      generatedAt: new Date().toISOString(),
+    };
+
+    const { stats } = verifyReport(emptyReport, SOURCES_BY_ID);
+    expect(stats.total).toBe(0);
+    expect(stats.verified).toBe(0);
+    expect(stats.unverified).toBe(0);
   });
 });

@@ -1,0 +1,38 @@
+[
+  {
+    "id": "e1",
+    "description": "angelone-documents says an Aadhaar-linked mobile number is mandatory; guidelines-revised (para 9.3, Farmer Attributes Optional) and faq-revised (Q20 iv, 'not mandatory') treat the mobile number as optional",
+    "expectedStatus": "conflicting",
+    "topic": "Documents required"
+  },
+  {
+    "id": "e2",
+    "description": "guidelines-revised (paras 6.1 and 10.2) say the Aadhaar exemption for Assam, Meghalaya and J&K runs till 31.3.2021; faq-revised (Q20, Q27, Q35) says 31 March 2020",
+    "expectedStatus": "conflicting",
+    "topic": "Aadhaar requirement"
+  },
+  {
+    "id": "e3",
+    "description": "angelone-eligibility says saturation drives now allow new families, including through 'recent updates'; guidelines-revised (para 5.2) and faq-revised (Q12) say no changes after the 01.02.2019 cut-off for 5 years, except succession on death",
+    "expectedStatus": "conflicting",
+    "topic": "Cut-off date"
+  },
+  {
+    "id": "e4",
+    "description": "eKYC is described in both angelone pages and Unique Farmer ID in angelone-documents; guidelines-revised, faq-revised and myscheme mention only Aadhaar seeding or authentication",
+    "expectedStatus": "missing",
+    "topic": "eKYC"
+  },
+  {
+    "id": "e5",
+    "description": "faq-revised and myscheme carry no publication or update date; faq-revised only refers to 2020 deadlines and uses the word 'Recently'",
+    "expectedStatus": "undated-warning",
+    "topic": "Source dates"
+  },
+  {
+    "id": "e6",
+    "description": "angelone-eligibility has '2025' in its title but states 'Updated on 12th Mar, 2026', so its date is inconsistent",
+    "expectedStatus": "undated-warning",
+    "topic": "Source dates"
+  }
+]
